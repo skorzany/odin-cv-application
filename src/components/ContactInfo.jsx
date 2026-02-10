@@ -2,37 +2,62 @@ import styles from '../assets/styles/ContactInfo.module.css';
 
 export default function ContactInfo() {
   return (
-    <fieldset>
+    <fieldset className={styles.contactFieldset}>
       <legend>Contact</legend>
+      {/* <>
+        <h2 className={styles.name}>John Doe</h2>
+        <p className={styles.email}>john.doe@example.com</p>
+        <p className={styles.phone}>123 456 789</p>
+      </> */}
       <>
-        <label>
+        <label className={styles.contactLabel} htmlFor="fname">
           *First name:
-          <input type="text" name="fname" placeholder="John" required />
         </label>
-        <label>
+        <input
+          type="text"
+          id="fname"
+          className={styles.contactInput}
+          name="fname"
+          placeholder="John"
+          required
+        />
+        <label className={styles.contactLabel} htmlFor="lname">
           *Last name:
-          <input type="text" name="lname" placeholder="Doe" required />
         </label>
-        <label>
+        <input
+          type="text"
+          id="lname"
+          className={styles.contactInput}
+          name="lname"
+          placeholder="Doe"
+          required
+        />
+        <label className={styles.contactLabel} htmlFor="email">
           *E-mail:
-          <input
-            type="email"
-            name="email"
-            placeholder="john.doe@example.com"
-            required
-          />
         </label>
-        <label>
+        <input
+          type="email"
+          id="email"
+          className={styles.contactInput}
+          name="email"
+          placeholder="john.doe@example.com"
+          required
+        />
+        <label className={styles.contactLabel} htmlFor="phone">
           Phone:
-          <input type="tel" name="phone" placeholder="123 456 789" />
         </label>
+        <input
+          type="tel"
+          id="phone"
+          className={styles.contactInput}
+          name="phone"
+          maxLength="9"
+          placeholder="123 456 789"
+        />
       </>
-      <>
-        <h2>John Doe</h2>
-        <p>john.doe@example.com</p>
-        <p>123 456 789</p>
-      </>
-      <button type="button">Edit</button>
+      <button type="button" className={styles.saveEdit}>
+        Edit
+      </button>
     </fieldset>
   );
 }
