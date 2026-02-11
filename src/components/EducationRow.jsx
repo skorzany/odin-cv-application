@@ -2,9 +2,17 @@ import styles from '../assets/styles/EducationRow.module.css';
 
 export default function EducationRow() {
   return (
-    <>
+    <div className={styles.row}>
       <>
-        <select name="completionYear" defaultValue="">
+        <p className={styles.gradYear}>2026</p>
+        <p className={styles.school}>School XYZ</p>
+        <p className={styles.discipline}>Degree & Discipline</p>
+        <button className={styles.saveEdit} type="button">
+          Save
+        </button>
+      </>
+      <>
+        <select className={styles.select} name="completionYear" defaultValue="">
           <option value="" disabled>
             Graduation year (required)
           </option>
@@ -16,23 +24,22 @@ export default function EducationRow() {
         </select>
         <input
           type="text"
+          className={styles.textInput}
           name="school"
           placeholder="School name (required)"
           required
         />
         <input
           type="text"
+          className={styles.textInput}
           name="discipline"
           placeholder="Degree & Discipline"
         />
+        <button className={styles.saveEdit} type="button">
+          Save
+        </button>
       </>
-      <p>
-        <span>2026</span>
-        <strong>School XYZ</strong>
-        <span>Degree & Discipline</span>
-      </p>
-      <button type="button">Save</button>
-    </>
+    </div>
   );
 }
 

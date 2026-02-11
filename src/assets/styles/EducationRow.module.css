@@ -1,8 +1,58 @@
-/* ===== mobile styles ===== */
+/* ===== base/mobile styles ===== */
+.row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
+/* == display state == */
+.gradYear {
+  grid-column: 1 / span 2;
+}
+
+.school,
+.discipline {
+  grid-column: 3 / -1;
+  margin-left: var(--column-gap);
+  text-align: end;
+}
+
+.school {
+  font-weight: bold;
+  border-bottom: 1px dashed;
+  margin-bottom: 0.5em;
+}
+
+.discipline {
+  font-style: italic;
+  margin-bottom: 1em;
+}
+/* == edit state == */
+.select,
+.textInput {
+  margin-bottom: 1em;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+  grid-column: 1 / span 6;
+}
+
+.saveEdit {
+  grid-column: 6;
+  justify-self: end;
+}
 
 /* ===== tablet styles ===== */
 @media screen and (min-width: 641px) {
+  /* == edit state == */
+  .select {
+    grid-column: 1 / span 2;
+  }
+
+  .textInput {
+    grid-column: 3 / span 4;
+    margin-left: var(--column-gap);
+  }
 }
+
 /* ===== desktop styles ===== */
 @media screen and (min-width: 1281px) {
+  /* empty on purpose, nothing to add */
 }
