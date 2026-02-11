@@ -5,13 +5,17 @@ export default function EducationInfo() {
   return (
     <fieldset>
       <legend>Education</legend>
-      <ol>
-        <li>
+      <ol className={styles.list}>
+        <li className={styles.listItem}>
           <EducationRow />
-          <button type="button">Remove</button>
+          <button className={styles.remove} type="button">
+            Remove
+          </button>
         </li>
       </ol>
-      <button>Add new education</button>
+      <button className={styles.add} type="button">
+        Add new education
+      </button>
     </fieldset>
   );
 }
