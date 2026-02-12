@@ -1,8 +1,38 @@
-/* ===== mobile styles ===== */
+/* ===== base/mobile styles ===== */
+.list,
+.listItem {
+  width: 100%;
+}
+
+.list {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.listItem {
+  position: relative;
+  border-bottom: 1px dotted;
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+}
+
+.remove {
+  position: absolute;
+  left: 0;
+  transform: translateY(-100%);
+}
+
+.add {
+  display: block;
+  margin: 0 auto;
+}
 
 /* ===== tablet styles ===== */
 @media screen and (min-width: 641px) {
+  /* empty on purpose, nothing to add */
 }
+
 /* ===== desktop styles ===== */
 @media screen and (min-width: 1281px) {
+  /* empty on purpose, nothing to add */
 }

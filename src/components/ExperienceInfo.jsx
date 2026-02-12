@@ -5,13 +5,17 @@ export default function ExperienceInfo() {
   return (
     <fieldset>
       <legend>Work experience</legend>
-      <ol>
-        <li>
+      <ol className={styles.list}>
+        <li className={styles.listItem}>
           <ExperienceRow />
-          <button type="button">Remove</button>
+          <button className={styles.remove} type="button">
+            Remove
+          </button>
         </li>
       </ol>
-      <button>Add new work experience</button>
+      <button className={styles.add} type="button">
+        Add new work experience
+      </button>
     </fieldset>
   );
 }
