@@ -1,19 +1,13 @@
 import { useState, useRef } from 'react';
 import styles from '../assets/styles/EducationRow.module.css';
 
-export default function EducationRow() {
+export default function EducationRow({ eduData, onChange, onSave }) {
   const [isViewing, setIsViewing] = useState(false);
-  const [eduData, setEduData] = useState({
-    graduation: '',
-    school: '',
-    discipline: '',
-  });
   const rowRef = useRef(null);
 
   function validate() {
     const gradYear = rowRef.current.querySelector('select');
     const school = rowRef.current.querySelector(`.${styles.textInput}`);
-
     if (gradYear.value === '') {
       gradYear.setCustomValidity('Please select a year.');
       gradYear.reportValidity();
@@ -31,11 +25,7 @@ export default function EducationRow() {
     else {
       const allValid = validate();
       if (allValid === true) {
-        setEduData({
-          ...eduData,
-          school: eduData.school.trim(),
-          discipline: eduData.discipline.trim(),
-        });
+        onSave();
         setIsViewing(!isViewing);
       }
     }
@@ -60,9 +50,8 @@ export default function EducationRow() {
             className={styles.select}
             name="completionYear"
             value={eduData.graduation}
-            onChange={(e) =>
-              setEduData({ ...eduData, graduation: e.target.value })
-            }
+            required
+            onChange={onChange}
           >
             <option value="" disabled>
               Graduation year (required)
@@ -80,7 +69,7 @@ export default function EducationRow() {
             value={eduData.school}
             placeholder="School name (required)"
             required
-            onChange={(e) => setEduData({ ...eduData, school: e.target.value })}
+            onChange={onChange}
             onKeyDown={handleKeyDown}
           />
           <input
@@ -89,9 +78,7 @@ export default function EducationRow() {
             name="discipline"
             value={eduData.discipline}
             placeholder="Degree & Discipline (optional)"
-            onChange={(e) =>
-              setEduData({ ...eduData, discipline: e.target.value })
-            }
+            onChange={onChange}
           />
         </>
       )}
@@ -105,4 +92,4 @@ export default function EducationRow() {
 const currentYear = new Date().getFullYear();
 const pastYear = currentYear - 100;
 const years = [];
-for (let year = pastYear; year <= currentYear; year += 1) years.push(year);
+for (let year = currentYear; year >= pastYear; year -= 1) years.push(year);
