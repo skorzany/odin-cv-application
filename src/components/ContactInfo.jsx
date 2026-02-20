@@ -1,14 +1,8 @@
 import { useState } from 'react';
 import styles from '../assets/styles/ContactInfo.module.css';
 
-export default function ContactInfo() {
+export default function ContactInfo({ state, setter }) {
   const [isViewing, setIsViewing] = useState(false);
-  const [contactData, setContactData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-  });
 
   function formatName(name) {
     let words = name.trim().split(/ - |-/); // in my country some people have 'Two-Word' names and surnames
@@ -38,11 +32,11 @@ export default function ContactInfo() {
     else {
       const allValid = validate();
       if (allValid) {
-        setContactData({
-          ...contactData,
-          firstName: formatName(contactData.firstName),
-          lastName: formatName(contactData.lastName),
-          email: formatEmail(contactData.email),
+        setter({
+          ...state,
+          firstName: formatName(state.firstName),
+          lastName: formatName(state.lastName),
+          email: formatEmail(state.email),
         });
         setIsViewing(!isViewing);
       }
@@ -78,9 +72,9 @@ export default function ContactInfo() {
         <>
           <h2
             className={styles.name}
-          >{`${contactData.firstName} ${contactData.lastName}`}</h2>
-          <p className={styles.email}>{contactData.email}</p>
-          <p className={styles.phone}>{formatPhone(contactData.phone)}</p>
+          >{`${state.firstName} ${state.lastName}`}</h2>
+          <p className={styles.email}>{state.email}</p>
+          <p className={styles.phone}>{formatPhone(state.phone)}</p>
         </>
       ) : (
         <>
@@ -93,11 +87,9 @@ export default function ContactInfo() {
             className={styles.contactInput}
             name="fname"
             placeholder="John"
-            value={contactData.firstName}
+            value={state.firstName}
             required
-            onChange={(e) =>
-              setContactData({ ...contactData, firstName: e.target.value })
-            }
+            onChange={(e) => setter({ ...state, firstName: e.target.value })}
             onKeyDown={handleKeyDown}
           />
           <label className={styles.contactLabel} htmlFor="lname">
@@ -109,11 +101,9 @@ export default function ContactInfo() {
             className={styles.contactInput}
             name="lname"
             placeholder="Doe"
-            value={contactData.lastName}
+            value={state.lastName}
             required
-            onChange={(e) =>
-              setContactData({ ...contactData, lastName: e.target.value })
-            }
+            onChange={(e) => setter({ ...state, lastName: e.target.value })}
             onKeyDown={handleKeyDown}
           />
           <label className={styles.contactLabel} htmlFor="email">
@@ -125,11 +115,9 @@ export default function ContactInfo() {
             className={styles.contactInput}
             name="email"
             placeholder="john.doe@example.com"
-            value={contactData.email}
+            value={state.email}
             required
-            onChange={(e) =>
-              setContactData({ ...contactData, email: e.target.value })
-            }
+            onChange={(e) => setter({ ...state, email: e.target.value })}
             onKeyDown={handleKeyDown}
           />
           <label className={styles.contactLabel} htmlFor="phone">
@@ -142,10 +130,8 @@ export default function ContactInfo() {
             name="phone"
             maxLength="9"
             placeholder="123 456 789"
-            value={contactData.phone.split(' ').join('')}
-            onChange={(e) =>
-              setContactData({ ...contactData, phone: e.target.value })
-            }
+            value={state.phone.split(' ').join('')}
+            onChange={(e) => setter({ ...state, phone: e.target.value })}
           />
         </>
       )}

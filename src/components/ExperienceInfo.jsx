@@ -1,27 +1,24 @@
-import { useState } from 'react';
 import ExperienceRow from './ExperienceRow.jsx';
 import styles from '../assets/styles/ExperienceInfo.module.css';
 
-const TEMPLATE = {
-  startDate: '',
-  endDate: '',
-  company: '',
-  position: '',
-  details: '',
-};
 let freeId = 0;
 
-export default function ExperienceInfo() {
-  const [jobs, setJobs] = useState([]);
-
+export default function ExperienceInfo({ state, setter }) {
   function addJob() {
-    const newJob = { ...TEMPLATE, id: freeId++ };
-    setJobs([...jobs, newJob]);
+    const newJob = {
+      startDate: '',
+      endDate: '',
+      company: '',
+      position: '',
+      details: '',
+      id: freeId++,
+    };
+    setter({ ...state, jobs: [...state.jobs, newJob] });
   }
 
   function handleChange(e, id) {
-    const oldData = jobs.find((job) => job.id === id);
-    const idx = jobs.indexOf(oldData);
+    const oldData = state.jobs.find((job) => job.id === id);
+    const idx = state.jobs.indexOf(oldData);
     const name = e.target.name;
     const value = e.target.value;
     let newData;
@@ -42,26 +39,40 @@ export default function ExperienceInfo() {
         newData = { ...oldData, details: value };
         break;
     }
-    setJobs([...jobs.slice(0, idx), newData, ...jobs.slice(idx + 1)]);
+    setter({
+      ...state,
+      jobs: [
+        ...state.jobs.slice(0, idx),
+        newData,
+        ...state.jobs.slice(idx + 1),
+      ],
+    });
   }
 
   function handleSave(id) {
-    const oldData = jobs.find((job) => job.id === id);
-    const idx = jobs.indexOf(oldData);
+    const oldData = state.jobs.find((job) => job.id === id);
+    const idx = state.jobs.indexOf(oldData);
     const newData = {
       ...oldData,
       company: oldData.company.trim(),
       position: oldData.position.trim(),
       details: oldData.details.trim(),
     };
-    setJobs([...jobs.slice(0, idx), newData, ...jobs.slice(idx + 1)]);
+    setter({
+      ...state,
+      jobs: [
+        ...state.jobs.slice(0, idx),
+        newData,
+        ...state.jobs.slice(idx + 1),
+      ],
+    });
   }
 
   return (
     <fieldset>
       <legend>Work experience</legend>
       <ol className={styles.list}>
-        {jobs.map((job) => (
+        {state.jobs.map((job) => (
           <li className={styles.listItem} key={job.id}>
             <ExperienceRow
               expData={job}
@@ -71,7 +82,12 @@ export default function ExperienceInfo() {
             <button
               className={styles.remove}
               type="button"
-              onClick={() => setJobs(jobs.filter((obj) => obj.id !== job.id))}
+              onClick={() =>
+                setter({
+                  ...state,
+                  jobs: state.jobs.filter((obj) => obj.id !== job.id),
+                })
+              }
             >
               Remove
             </button>

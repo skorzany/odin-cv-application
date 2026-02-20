@@ -1,21 +1,22 @@
-import { useState } from 'react';
 import EducationRow from './EducationRow.jsx';
 import styles from '../assets/styles/EducationInfo.module.css';
 
-const TEMPLATE = { graduation: '', school: '', discipline: '' };
 let freeId = 0;
 
-export default function EducationInfo() {
-  const [schools, setSchools] = useState([]);
-
+export default function EducationInfo({ state, setter }) {
   function addSchool() {
-    const newSchool = { ...TEMPLATE, id: freeId++ };
-    setSchools([...schools, newSchool]);
+    const newSchool = {
+      graduation: '',
+      school: '',
+      discipline: '',
+      id: freeId++,
+    };
+    setter({ ...state, schools: [...state.schools, newSchool] });
   }
 
   function handleChange(e, id) {
-    const oldData = schools.find((school) => school.id === id);
-    const idx = schools.indexOf(oldData);
+    const oldData = state.schools.find((school) => school.id === id);
+    const idx = state.schools.indexOf(oldData);
     const name = e.target.name;
     const value = e.target.value;
     let newData;
@@ -30,25 +31,39 @@ export default function EducationInfo() {
         newData = { ...oldData, discipline: value };
         break;
     }
-    setSchools([...schools.slice(0, idx), newData, ...schools.slice(idx + 1)]);
+    setter({
+      ...state,
+      schools: [
+        ...state.schools.slice(0, idx),
+        newData,
+        ...state.schools.slice(idx + 1),
+      ],
+    });
   }
 
   function handleSave(id) {
-    const oldData = schools.find((school) => school.id === id);
-    const idx = schools.indexOf(oldData);
+    const oldData = state.schools.find((school) => school.id === id);
+    const idx = state.schools.indexOf(oldData);
     const newData = {
       ...oldData,
       school: oldData.school.trim(),
       discipline: oldData.discipline.trim(),
     };
-    setSchools([...schools.slice(0, idx), newData, ...schools.slice(idx + 1)]);
+    setter({
+      ...state,
+      schools: [
+        ...state.schools.slice(0, idx),
+        newData,
+        ...state.schools.slice(idx + 1),
+      ],
+    });
   }
 
   return (
     <fieldset>
       <legend>Education</legend>
       <ol className={styles.list}>
-        {schools.map((school) => (
+        {state.schools.map((school) => (
           <li className={styles.listItem} key={school.id}>
             <EducationRow
               eduData={school}
@@ -59,7 +74,10 @@ export default function EducationInfo() {
               className={styles.remove}
               type="button"
               onClick={() =>
-                setSchools(schools.filter((obj) => obj.id !== school.id))
+                setter({
+                  ...state,
+                  schools: state.schools.filter((obj) => obj.id !== school.id),
+                })
               }
             >
               Remove
