@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { formatName, formatEmail, formatPhone } from '../utils/formatting.js';
+import { formatPhone } from '../utils/formatting.js';
 import styles from '../assets/styles/ContactInfo.module.css';
 
-export default function ContactInfo({ state, setter }) {
+export default function ContactInfo({ fname, lname, email, phone, dispatch }) {
   const [isViewing, setIsViewing] = useState(false);
 
   function handleKeyDown(e) {
@@ -10,16 +10,16 @@ export default function ContactInfo({ state, setter }) {
     e.target.reportValidity();
   }
 
-  function handleClick() {
+  function handleSave() {
     if (isViewing) setIsViewing(!isViewing);
     else {
       const allValid = validate();
       if (allValid) {
-        setter({
-          ...state,
-          firstName: formatName(state.firstName),
-          lastName: formatName(state.lastName),
-          email: formatEmail(state.email),
+        dispatch({
+          type: 'saved_contact',
+          firstName: fname,
+          lastName: lname,
+          email: email,
         });
         setIsViewing(!isViewing);
       }
@@ -53,11 +53,9 @@ export default function ContactInfo({ state, setter }) {
       <legend>Contact</legend>
       {isViewing ? (
         <>
-          <h2
-            className={styles.name}
-          >{`${state.firstName} ${state.lastName}`}</h2>
-          <p className={styles.email}>{state.email}</p>
-          <p className={styles.phone}>{formatPhone(state.phone)}</p>
+          <h2 className={styles.name}>{`${fname} ${lname}`}</h2>
+          <p className={styles.email}>{email}</p>
+          <p className={styles.phone}>{formatPhone(phone)}</p>
         </>
       ) : (
         <>
@@ -70,9 +68,11 @@ export default function ContactInfo({ state, setter }) {
             className={styles.contactInput}
             name="fname"
             placeholder="John"
-            value={state.firstName}
+            value={fname}
             required
-            onChange={(e) => setter({ ...state, firstName: e.target.value })}
+            onChange={(e) =>
+              dispatch({ type: 'changed_fname', firstName: e.target.value })
+            }
             onKeyDown={handleKeyDown}
           />
           <label className={styles.contactLabel} htmlFor="lname">
@@ -84,9 +84,11 @@ export default function ContactInfo({ state, setter }) {
             className={styles.contactInput}
             name="lname"
             placeholder="Doe"
-            value={state.lastName}
+            value={lname}
             required
-            onChange={(e) => setter({ ...state, lastName: e.target.value })}
+            onChange={(e) =>
+              dispatch({ type: 'changed_lname', lastName: e.target.value })
+            }
             onKeyDown={handleKeyDown}
           />
           <label className={styles.contactLabel} htmlFor="email">
@@ -98,9 +100,11 @@ export default function ContactInfo({ state, setter }) {
             className={styles.contactInput}
             name="email"
             placeholder="john.doe@example.com"
-            value={state.email}
+            value={email}
             required
-            onChange={(e) => setter({ ...state, email: e.target.value })}
+            onChange={(e) =>
+              dispatch({ type: 'changed_email', email: e.target.value })
+            }
             onKeyDown={handleKeyDown}
           />
           <label className={styles.contactLabel} htmlFor="phone">
@@ -113,12 +117,14 @@ export default function ContactInfo({ state, setter }) {
             name="phone"
             maxLength="9"
             placeholder="123 456 789"
-            value={state.phone.split(' ').join('')}
-            onChange={(e) => setter({ ...state, phone: e.target.value })}
+            value={phone.split(' ').join('')}
+            onChange={(e) =>
+              dispatch({ type: 'changed_phone', phone: e.target.value })
+            }
           />
         </>
       )}
-      <button type="button" className={styles.saveEdit} onClick={handleClick}>
+      <button type="button" className={styles.saveEdit} onClick={handleSave}>
         {isViewing ? 'Edit' : 'Save'}
       </button>
     </fieldset>

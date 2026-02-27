@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useReducer } from 'react';
+import { initialState, personReducer } from './reducers/personReducer.js';
 import ContactInfo from './components/ContactInfo.jsx';
 import EducationInfo from './components/EducationInfo.jsx';
 import ExperienceInfo from './components/ExperienceInfo.jsx';
@@ -6,22 +7,21 @@ import './assets/styles/reset.css';
 import './assets/styles/App.css';
 
 export default function App() {
-  const [personData, setPersonData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    schools: [],
-    jobs: [],
-  });
+  const [personData, dispatch] = useReducer(personReducer, initialState);
 
   return (
     <>
       <h1>Curriculum Vitae</h1>
       <form>
-        <ContactInfo state={personData} setter={setPersonData} />
-        <EducationInfo state={personData} setter={setPersonData} />
-        <ExperienceInfo state={personData} setter={setPersonData} />
+        <ContactInfo
+          fname={personData.firstName}
+          lname={personData.lastName}
+          email={personData.email}
+          phone={personData.phone}
+          dispatch={dispatch}
+        />
+        <EducationInfo schools={personData.schools} dispatch={dispatch} />
+        <ExperienceInfo jobs={personData.jobs} dispatch={dispatch} />
         <button type="submit">Submit</button>
       </form>
       <footer>

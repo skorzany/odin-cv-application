@@ -1,33 +1,52 @@
 import { useState, useRef } from 'react';
 import styles from '../assets/styles/EducationRow.module.css';
 
-export default function EducationRow({ eduData, onChange, onSave }) {
+export default function EducationRow({ school, dispatch }) {
   const [isViewing, setIsViewing] = useState(false);
   const rowRef = useRef(null);
 
   function validate() {
     const gradYear = rowRef.current.querySelector('select');
-    const school = rowRef.current.querySelector(`.${styles.textInput}`);
+    const schoolInput = rowRef.current.querySelector(`.${styles.textInput}`);
     if (gradYear.value === '') {
       gradYear.setCustomValidity('Please select a year.');
       gradYear.reportValidity();
       return false;
-    } else if (school.value.trim() === '') {
-      school.setCustomValidity("Please enter school's name.");
-      school.reportValidity();
+    } else if (schoolInput.value.trim() === '') {
+      schoolInput.setCustomValidity("Please enter school's name.");
+      schoolInput.reportValidity();
       return false;
     }
     return true;
   }
 
-  function handleClick() {
-    if (isViewing) setIsViewing(!isViewing);
-    else {
-      const allValid = validate();
-      if (allValid === true) {
-        onSave();
-        setIsViewing(!isViewing);
-      }
+  function handleChange(e) {
+    const [name, value] = [e.target.name, e.target.value];
+    const action = { id: school.id };
+    switch (name) {
+      case 'completionYear':
+        dispatch({
+          ...action,
+          type: 'changed_school_year',
+          graduation: value,
+        });
+        break;
+      case 'schoolName':
+        dispatch({
+          ...action,
+          type: 'changed_school_name',
+          name: value,
+        });
+        break;
+      case 'discipline':
+        dispatch({
+          ...action,
+          type: 'changed_school_discipline',
+          discipline: value,
+        });
+        break;
+      default:
+        throw Error('Unknown name:', name);
     }
   }
 
@@ -36,22 +55,33 @@ export default function EducationRow({ eduData, onChange, onSave }) {
     e.target.reportValidity();
   }
 
+  function handleSave() {
+    if (isViewing) setIsViewing(!isViewing);
+    else {
+      const allValid = validate();
+      if (allValid === true) {
+        dispatch({ type: 'saved_school', id: school.id });
+        setIsViewing(!isViewing);
+      }
+    }
+  }
+
   return (
     <div className={styles.row} ref={rowRef}>
       {isViewing ? (
         <>
-          <p className={styles.gradYear}>{eduData.graduation}</p>
-          <p className={styles.school}>{eduData.school}</p>
-          <p className={styles.discipline}>{eduData.discipline}</p>
+          <p className={styles.gradYear}>{school.graduation}</p>
+          <p className={styles.school}>{school.name}</p>
+          <p className={styles.discipline}>{school.discipline}</p>
         </>
       ) : (
         <>
           <select
             className={styles.select}
             name="completionYear"
-            value={eduData.graduation}
+            value={school.graduation}
             required
-            onChange={onChange}
+            onChange={handleChange}
           >
             <option value="" disabled>
               Graduation year (required)
@@ -65,24 +95,24 @@ export default function EducationRow({ eduData, onChange, onSave }) {
           <input
             type="text"
             className={styles.textInput}
-            name="school"
-            value={eduData.school}
+            name="schoolName"
+            value={school.name}
             placeholder="School name (required)"
             required
-            onChange={onChange}
+            onChange={handleChange}
             onKeyDown={handleKeyDown}
           />
           <input
             type="text"
             className={styles.textInput}
             name="discipline"
-            value={eduData.discipline}
+            value={school.discipline}
             placeholder="Degree & Discipline (optional)"
-            onChange={onChange}
+            onChange={handleChange}
           />
         </>
       )}
-      <button className={styles.saveEdit} type="button" onClick={handleClick}>
+      <button className={styles.saveEdit} type="button" onClick={handleSave}>
         {isViewing ? 'Edit' : 'Save'}
       </button>
     </div>

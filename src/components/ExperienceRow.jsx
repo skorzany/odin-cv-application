@@ -1,9 +1,17 @@
 import { useState, useRef } from 'react';
+import { formatDate } from '../utils/formatting.js';
 import styles from '../assets/styles/ExperienceRow.module.css';
 
-export default function ExperienceRow({ expData, onChange, onSave }) {
+export default function ExperienceRow({ job, dispatch }) {
   const [isViewing, setIsViewing] = useState(false);
   const rowRef = useRef(null);
+
+  function setMinEndDate(e) {
+    const endDateElement = rowRef.current.querySelector(
+      'input[name="workEnd"]',
+    );
+    endDateElement.min = e.target.value;
+  }
 
   function validate() {
     const [startDate, endDate] = rowRef.current.querySelectorAll(
@@ -34,14 +42,27 @@ export default function ExperienceRow({ expData, onChange, onSave }) {
     return true;
   }
 
-  function handleClick() {
-    if (isViewing) setIsViewing(!isViewing);
-    else {
-      const allValid = validate();
-      if (allValid === true) {
-        onSave();
-        setIsViewing(!isViewing);
-      }
+  function handleChange(e) {
+    const [name, value] = [e.target.name, e.target.value];
+    const action = { id: job.id };
+    switch (name) {
+      case 'workStart':
+        dispatch({ ...action, type: 'changed_job_start', startDate: value });
+        break;
+      case 'workEnd':
+        dispatch({ ...action, type: 'changed_job_end', endDate: value });
+        break;
+      case 'company':
+        dispatch({ ...action, type: 'changed_job_company', company: value });
+        break;
+      case 'position':
+        dispatch({ ...action, type: 'changed_job_position', position: value });
+        break;
+      case 'details':
+        dispatch({ ...action, type: 'changed_job_details', details: value });
+        break;
+      default:
+        throw Error('Unknown name:', name);
     }
   }
 
@@ -50,31 +71,15 @@ export default function ExperienceRow({ expData, onChange, onSave }) {
     e.target.reportValidity();
   }
 
-  function setMinEndDate(e) {
-    const endDateElement = rowRef.current.querySelector(
-      'input[name="workEnd"]',
-    );
-    endDateElement.min = e.target.value;
-  }
-
-  function formatDate(dateString) {
-    const MONTHS = [
-      // abbreviations according to the Yale University Library
-      'Jan.',
-      'Feb.',
-      'Mar.',
-      'Apr.',
-      'May',
-      'June',
-      'July',
-      'Aug.',
-      'Sept.',
-      'Oct.',
-      'Nov.',
-      'Dec.',
-    ];
-    const dateParts = dateString.split('-');
-    return `${MONTHS[Number(dateParts[1]) - 1]} ${dateParts[0]}`;
+  function handleSave() {
+    if (isViewing) setIsViewing(!isViewing);
+    else {
+      const allValid = validate();
+      if (allValid === true) {
+        dispatch({ type: 'saved_job', id: job.id });
+        setIsViewing(!isViewing);
+      }
+    }
   }
 
   return (
@@ -82,18 +87,14 @@ export default function ExperienceRow({ expData, onChange, onSave }) {
       {isViewing ? (
         <>
           <p className={styles.workPeriod}>
-            {`${formatDate(expData.startDate)} - `}
-            {expData.endDate !== '' ? (
-              formatDate(expData.endDate)
-            ) : (
-              <em>present</em>
-            )}
+            {`${formatDate(job.startDate)} - `}
+            {job.endDate !== '' ? formatDate(job.endDate) : <em>present</em>}
           </p>
           <p className={styles.company}>
-            {`${expData.company} - `}
-            <em>{expData.position}</em>
+            {`${job.company} - `}
+            <em>{job.position}</em>
           </p>
-          <p className={styles.details}>{expData.details}</p>
+          <p className={styles.details}>{job.details}</p>
         </>
       ) : (
         <>
@@ -104,13 +105,13 @@ export default function ExperienceRow({ expData, onChange, onSave }) {
                 type="date"
                 className={styles.dateInput}
                 name="workStart"
-                value={expData.startDate}
+                value={job.startDate}
                 min={past}
                 max={today}
                 required
                 onChange={(e) => {
                   setMinEndDate(e);
-                  onChange(e);
+                  handleChange(e);
                 }}
               />
             </span>
@@ -120,10 +121,10 @@ export default function ExperienceRow({ expData, onChange, onSave }) {
                 type="date"
                 className={styles.dateInput}
                 name="workEnd"
-                value={expData.endDate}
+                value={job.endDate}
                 min={past}
                 max={today}
-                onChange={onChange}
+                onChange={handleChange}
               />
             </span>
           </div>
@@ -131,33 +132,33 @@ export default function ExperienceRow({ expData, onChange, onSave }) {
             type="text"
             className={styles.textInput}
             name="company"
-            value={expData.company}
+            value={job.company}
             placeholder="Company (required)"
             required
             onKeyDown={handleKeyDown}
-            onChange={onChange}
+            onChange={handleChange}
           />
           <input
             type="text"
             className={styles.textInput}
             name="position"
-            value={expData.position}
+            value={job.position}
             placeholder="Position (required)"
             required
             onKeyDown={handleKeyDown}
-            onChange={onChange}
+            onChange={handleChange}
           />
           <textarea
             className={styles.textArea}
             name="details"
-            value={expData.details}
+            value={job.details}
             rows="2"
             placeholder="Work details (optional)"
-            onChange={onChange}
+            onChange={handleChange}
           ></textarea>
         </>
       )}
-      <button className={styles.saveEdit} type="button" onClick={handleClick}>
+      <button className={styles.saveEdit} type="button" onClick={handleSave}>
         {isViewing ? 'Edit' : 'Save'}
       </button>
     </div>
