@@ -1,4 +1,9 @@
 /* ===== base/mobile styles ===== */
+.row {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+}
+
 .list,
 .listItem {
   width: 100%;
@@ -15,16 +20,11 @@
   margin-bottom: 1em;
   padding-bottom: 1em;
 }
-
-.remove {
-  position: absolute;
-  left: 0;
-  transform: translateY(-100%);
-}
-
-.add {
-  display: block;
-  margin: 0 auto;
+/* == static versions == */
+.list:last-child > .listItem:last-child {
+  border-bottom: initial;
+  padding-bottom: 0;
+  margin-bottom: 0;
 }
 
 /* ===== tablet styles ===== */

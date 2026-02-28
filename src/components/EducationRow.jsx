@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react';
-import styles from '../assets/styles/EducationRow.module.css';
+import view from '../assets/styles/SchoolView.module.css';
+import draft from '../assets/styles/SchoolDraft.module.css';
 
 export default function EducationRow({ school, dispatch }) {
   const [isViewing, setIsViewing] = useState(false);
@@ -7,7 +8,7 @@ export default function EducationRow({ school, dispatch }) {
 
   function validate() {
     const gradYear = rowRef.current.querySelector('select');
-    const schoolInput = rowRef.current.querySelector(`.${styles.textInput}`);
+    const schoolInput = rowRef.current.querySelector(`.${draft.textInput}`);
     if (gradYear.value === '') {
       gradYear.setCustomValidity('Please select a year.');
       gradYear.reportValidity();
@@ -67,17 +68,17 @@ export default function EducationRow({ school, dispatch }) {
   }
 
   return (
-    <div className={styles.row} ref={rowRef}>
+    <div className={view.row} ref={rowRef}>
       {isViewing ? (
         <>
-          <p className={styles.gradYear}>{school.graduation}</p>
-          <p className={styles.school}>{school.name}</p>
-          <p className={styles.discipline}>{school.discipline}</p>
+          <p className={view.gradYear}>{school.graduation}</p>
+          <p className={view.school}>{school.name}</p>
+          <p className={view.discipline}>{school.discipline}</p>
         </>
       ) : (
         <>
           <select
-            className={styles.select}
+            className={draft.select}
             name="completionYear"
             value={school.graduation}
             required
@@ -94,7 +95,7 @@ export default function EducationRow({ school, dispatch }) {
           </select>
           <input
             type="text"
-            className={styles.textInput}
+            className={draft.textInput}
             name="schoolName"
             value={school.name}
             placeholder="School name (required)"
@@ -104,7 +105,7 @@ export default function EducationRow({ school, dispatch }) {
           />
           <input
             type="text"
-            className={styles.textInput}
+            className={draft.textInput}
             name="discipline"
             value={school.discipline}
             placeholder="Degree & Discipline (optional)"
@@ -112,7 +113,7 @@ export default function EducationRow({ school, dispatch }) {
           />
         </>
       )}
-      <button className={styles.saveEdit} type="button" onClick={handleSave}>
+      <button className={draft.saveEdit} type="button" onClick={handleSave}>
         {isViewing ? 'Edit' : 'Save'}
       </button>
     </div>

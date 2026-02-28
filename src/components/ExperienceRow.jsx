@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
 import { formatDate } from '../utils/formatting.js';
-import styles from '../assets/styles/ExperienceRow.module.css';
+import view from '../assets/styles/JobView.module.css';
+import draft from '../assets/styles/JobDraft.module.css';
 
 export default function ExperienceRow({ job, dispatch }) {
   const [isViewing, setIsViewing] = useState(false);
@@ -15,10 +16,10 @@ export default function ExperienceRow({ job, dispatch }) {
 
   function validate() {
     const [startDate, endDate] = rowRef.current.querySelectorAll(
-      `.${styles.dateInput}`,
+      `.${draft.dateInput}`,
     );
     const [company, position] = rowRef.current.querySelectorAll(
-      `.${styles.textInput}`,
+      `.${draft.textInput}`,
     );
     if (startDate.value === '') {
       startDate.setCustomValidity('Please enter the start date.');
@@ -83,27 +84,27 @@ export default function ExperienceRow({ job, dispatch }) {
   }
 
   return (
-    <div className={styles.row} ref={rowRef}>
+    <div className={view.row} ref={rowRef}>
       {isViewing ? (
         <>
-          <p className={styles.workPeriod}>
+          <p className={view.workPeriod}>
             {`${formatDate(job.startDate)} - `}
             {job.endDate !== '' ? formatDate(job.endDate) : <em>present</em>}
           </p>
-          <p className={styles.company}>
+          <p className={view.company}>
             {`${job.company} - `}
             <em>{job.position}</em>
           </p>
-          <p className={styles.details}>{job.details}</p>
+          <p className={view.details}>{job.details}</p>
         </>
       ) : (
         <>
-          <div className={styles.dates}>
-            <span className={styles.dateStart}>
+          <div className={draft.dates}>
+            <span className={draft.dateStart}>
               {'*'}
               <input
                 type="date"
-                className={styles.dateInput}
+                className={draft.dateInput}
                 name="workStart"
                 value={job.startDate}
                 min={past}
@@ -115,11 +116,11 @@ export default function ExperienceRow({ job, dispatch }) {
                 }}
               />
             </span>
-            <span className={styles.dateEnd}>
+            <span className={draft.dateEnd}>
               {'-'}
               <input
                 type="date"
-                className={styles.dateInput}
+                className={draft.dateInput}
                 name="workEnd"
                 value={job.endDate}
                 min={past}
@@ -130,7 +131,7 @@ export default function ExperienceRow({ job, dispatch }) {
           </div>
           <input
             type="text"
-            className={styles.textInput}
+            className={draft.textInput}
             name="company"
             value={job.company}
             placeholder="Company (required)"
@@ -140,7 +141,7 @@ export default function ExperienceRow({ job, dispatch }) {
           />
           <input
             type="text"
-            className={styles.textInput}
+            className={draft.textInput}
             name="position"
             value={job.position}
             placeholder="Position (required)"
@@ -149,7 +150,7 @@ export default function ExperienceRow({ job, dispatch }) {
             onChange={handleChange}
           />
           <textarea
-            className={styles.textArea}
+            className={draft.textArea}
             name="details"
             value={job.details}
             rows="2"
@@ -158,7 +159,7 @@ export default function ExperienceRow({ job, dispatch }) {
           ></textarea>
         </>
       )}
-      <button className={styles.saveEdit} type="button" onClick={handleSave}>
+      <button className={draft.saveEdit} type="button" onClick={handleSave}>
         {isViewing ? 'Edit' : 'Save'}
       </button>
     </div>

@@ -1,21 +1,4 @@
 /* ===== base/mobile styles ===== */
-.list,
-.listItem {
-  width: 100%;
-}
-
-.list {
-  list-style-type: none;
-  padding-left: 0;
-}
-
-.listItem {
-  position: relative;
-  border-bottom: 1px dotted;
-  margin-bottom: 1em;
-  padding-bottom: 1em;
-}
-
 .remove {
   position: absolute;
   left: 0;

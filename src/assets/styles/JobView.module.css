@@ -24,46 +24,6 @@
 .details {
   margin-bottom: 1em;
 }
-/* == edit state == */
-.dates,
-.dateStart,
-.dateEnd {
-  display: flex;
-}
-
-.dates {
-  grid-column: 1 / -1;
-  align-items: flex-start;
-  font-size: clamp(0.85em, 0.7em + 0.75vw, 1em);
-}
-
-.dateStart,
-.dateEnd,
-.dateInput {
-  flex: 1;
-}
-
-.dates,
-.textInput,
-.textArea {
-  margin-bottom: 1em;
-}
-
-.textInput,
-.textArea {
-  grid-column: 1 / -1;
-}
-
-.textArea {
-  resize: vertical;
-  min-height: 2em;
-}
-
-.saveEdit {
-  grid-column: 6;
-  grid-row: 5;
-  justify-self: end;
-}
 
 /* ===== tablet styles ===== */
 @media screen and (min-width: 641px) {
@@ -82,22 +42,6 @@
   .company,
   .details {
     text-align: end;
-  }
-  /* == edit state == */
-  .dates {
-    grid-column: 1 / span 2;
-  }
-
-  .dateStart,
-  .dateEnd,
-  .dateInput {
-    min-width: 0;
-  }
-
-  .textInput,
-  .textArea {
-    grid-column: 3 / -1;
-    margin-left: var(--column-gap);
   }
 }
 

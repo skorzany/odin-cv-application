@@ -1,0 +1,32 @@
+/* ===== base/mobile styles ===== */
+.saveEdit {
+  grid-column: 6;
+  grid-row: 9;
+  justify-self: end;
+}
+/* == edit state == */
+.contactLabel {
+  grid-column: 1 / span 2;
+  white-space: nowrap;
+}
+
+.contactInput {
+  grid-column: 1 / -1;
+  margin-bottom: 1em;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ===== tablet styles ===== */
+@media screen and (min-width: 641px) {
+  /* == edit state == */
+  .contactInput {
+    grid-column: 3 / -1;
+    margin-left: var(--column-gap);
+  }
+}
+
+/* ===== desktop styles ===== */
+@media screen and (min-width: 1281px) {
+  /* empty on purpose, nothing to add */
+}

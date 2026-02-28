@@ -3,12 +3,6 @@
   display: grid;
   grid-template-columns: repeat(6, 1fr);
 }
-
-.saveEdit {
-  grid-column: 6;
-  grid-row: 9;
-  justify-self: end;
-}
 /* == display state == */
 .name,
 .email,
@@ -53,18 +47,6 @@
 .phone:not(:empty)::before {
   content: url('../icons/phone.svg');
 }
-/* == edit state == */
-.contactLabel {
-  grid-column: 1 / span 2;
-  white-space: nowrap;
-}
-
-.contactInput {
-  grid-column: 1 / -1;
-  margin-bottom: 1em;
-  overflow-x: hidden;
-  text-overflow: ellipsis;
-}
 
 /* ===== tablet styles ===== */
 @media screen and (min-width: 641px) {
@@ -72,11 +54,6 @@
   .email:before,
   .phone:not(:empty)::before {
     left: -1em;
-  }
-  /* == edit state == */
-  .contactInput {
-    grid-column: 3 / -1;
-    margin-left: var(--column-gap);
   }
 }
 

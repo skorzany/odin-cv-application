@@ -1,30 +1,4 @@
 /* ===== base/mobile styles ===== */
-.row {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-}
-/* == display state == */
-.gradYear {
-  grid-column: 1 / span 2;
-}
-
-.school,
-.discipline {
-  grid-column: 3 / -1;
-  margin-left: var(--column-gap);
-  text-align: end;
-}
-
-.school {
-  font-weight: bold;
-  border-bottom: 1px dashed;
-  margin-bottom: 0.5em;
-}
-
-.discipline {
-  font-style: italic;
-  margin-bottom: 1em;
-}
 /* == edit state == */
 .select,
 .textInput {

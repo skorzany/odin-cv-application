@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { formatPhone } from '../utils/formatting.js';
-import styles from '../assets/styles/ContactInfo.module.css';
+import view from '../assets/styles/ContactView.module.css';
+import draft from '../assets/styles/ContactDraft.module.css';
 
 export default function ContactInfo({ fname, lname, email, phone, dispatch }) {
   const [isViewing, setIsViewing] = useState(false);
@@ -49,23 +50,23 @@ export default function ContactInfo({ fname, lname, email, phone, dispatch }) {
   }
 
   return (
-    <fieldset className={styles.contactFieldset}>
+    <fieldset className={view.contactFieldset}>
       <legend>Contact</legend>
       {isViewing ? (
         <>
-          <h2 className={styles.name}>{`${fname} ${lname}`}</h2>
-          <p className={styles.email}>{email}</p>
-          <p className={styles.phone}>{formatPhone(phone)}</p>
+          <h2 className={view.name}>{`${fname} ${lname}`}</h2>
+          <p className={view.email}>{email}</p>
+          <p className={view.phone}>{formatPhone(phone)}</p>
         </>
       ) : (
         <>
-          <label className={styles.contactLabel} htmlFor="fname">
+          <label className={draft.contactLabel} htmlFor="fname">
             *First name:
           </label>
           <input
             type="text"
             id="fname"
-            className={styles.contactInput}
+            className={draft.contactInput}
             name="fname"
             placeholder="John"
             value={fname}
@@ -75,13 +76,13 @@ export default function ContactInfo({ fname, lname, email, phone, dispatch }) {
             }
             onKeyDown={handleKeyDown}
           />
-          <label className={styles.contactLabel} htmlFor="lname">
+          <label className={draft.contactLabel} htmlFor="lname">
             *Last name:
           </label>
           <input
             type="text"
             id="lname"
-            className={styles.contactInput}
+            className={draft.contactInput}
             name="lname"
             placeholder="Doe"
             value={lname}
@@ -91,13 +92,13 @@ export default function ContactInfo({ fname, lname, email, phone, dispatch }) {
             }
             onKeyDown={handleKeyDown}
           />
-          <label className={styles.contactLabel} htmlFor="email">
+          <label className={draft.contactLabel} htmlFor="email">
             *E-mail:
           </label>
           <input
             type="text"
             id="email"
-            className={styles.contactInput}
+            className={draft.contactInput}
             name="email"
             placeholder="john.doe@example.com"
             value={email}
@@ -107,13 +108,13 @@ export default function ContactInfo({ fname, lname, email, phone, dispatch }) {
             }
             onKeyDown={handleKeyDown}
           />
-          <label className={styles.contactLabel} htmlFor="phone">
+          <label className={draft.contactLabel} htmlFor="phone">
             Phone:
           </label>
           <input
             type="tel"
             id="phone"
-            className={styles.contactInput}
+            className={draft.contactInput}
             name="phone"
             maxLength="9"
             placeholder="123 456 789"
@@ -124,7 +125,7 @@ export default function ContactInfo({ fname, lname, email, phone, dispatch }) {
           />
         </>
       )}
-      <button type="button" className={styles.saveEdit} onClick={handleSave}>
+      <button type="button" className={draft.saveEdit} onClick={handleSave}>
         {isViewing ? 'Edit' : 'Save'}
       </button>
     </fieldset>

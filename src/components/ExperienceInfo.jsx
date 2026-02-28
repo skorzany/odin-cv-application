@@ -1,5 +1,6 @@
 import ExperienceRow from './ExperienceRow.jsx';
-import styles from '../assets/styles/ExperienceInfo.module.css';
+import view from '../assets/styles/ListView.module.css';
+import draft from '../assets/styles/ListDraft.module.css';
 
 export default function ExperienceInfo({ jobs, dispatch }) {
   function addJob() {
@@ -13,12 +14,12 @@ export default function ExperienceInfo({ jobs, dispatch }) {
   return (
     <fieldset>
       <legend>Work experience</legend>
-      <ol className={styles.list}>
+      <ol className={view.list}>
         {jobs.map((job) => (
-          <li className={styles.listItem} key={job.id}>
+          <li className={view.listItem} key={job.id}>
             <ExperienceRow job={job} dispatch={dispatch} />
             <button
-              className={styles.remove}
+              className={draft.remove}
               type="button"
               onClick={() => removeJob(job.id)}
             >
@@ -27,7 +28,7 @@ export default function ExperienceInfo({ jobs, dispatch }) {
           </li>
         ))}
       </ol>
-      <button className={styles.add} type="button" onClick={addJob}>
+      <button className={draft.add} type="button" onClick={addJob}>
         Add new work experience
       </button>
     </fieldset>
