@@ -1,8 +1,10 @@
-import EducationRow from './EducationRow.jsx';
+import CustomFieldset from './CustomFieldset.jsx';
+import InteractiveSchool from './InteractiveSchool.jsx';
+import Button from './Button.jsx';
 import view from '../assets/styles/ListView.module.css';
 import draft from '../assets/styles/ListDraft.module.css';
 
-export default function EducationInfo({ schools, dispatch }) {
+export default function InteractiveEducation({ schools, dispatch }) {
   function addSchool() {
     dispatch({ type: 'added_school' });
   }
@@ -12,25 +14,24 @@ export default function EducationInfo({ schools, dispatch }) {
   }
 
   return (
-    <fieldset>
-      <legend>Education</legend>
+    <CustomFieldset legend="Education">
       <ol className={view.list}>
         {schools.map((school) => (
           <li className={view.listItem} key={school.id}>
-            <EducationRow school={school} dispatch={dispatch} />
-            <button
+            <InteractiveSchool school={school} dispatch={dispatch} />
+            <Button
+              textContent="Remove"
               className={draft.remove}
-              type="button"
               onClick={() => removeSchool(school.id)}
-            >
-              Remove
-            </button>
+            />
           </li>
         ))}
       </ol>
-      <button className={draft.add} type="button" onClick={addSchool}>
-        Add new education
-      </button>
-    </fieldset>
+      <Button
+        textContent="Add new school"
+        className={draft.add}
+        onClick={addSchool}
+      />
+    </CustomFieldset>
   );
 }

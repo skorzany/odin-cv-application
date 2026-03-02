@@ -1,7 +1,7 @@
 import { useReducer } from 'react';
 import { initialState, personReducer } from './reducers/personReducer.js';
 import InteractiveContact from './components/InteractiveContact.jsx';
-import EducationInfo from './components/EducationInfo.jsx';
+import InteractiveEducation from './components/InteractiveEducation.jsx';
 import ExperienceInfo from './components/ExperienceInfo.jsx';
 import './assets/styles/reset.css';
 import './assets/styles/App.css';
@@ -20,7 +20,10 @@ export default function App() {
           phone={personData.phone}
           dispatch={dispatch}
         />
-        <EducationInfo schools={personData.schools} dispatch={dispatch} />
+        <InteractiveEducation
+          schools={personData.schools}
+          dispatch={dispatch}
+        />
         <ExperienceInfo jobs={personData.jobs} dispatch={dispatch} />
         <button type="submit">Submit</button>
       </form>
