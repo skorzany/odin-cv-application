@@ -1,6 +1,6 @@
 import { useReducer } from 'react';
 import { initialState, personReducer } from './reducers/personReducer.js';
-import ContactInfo from './components/ContactInfo.jsx';
+import InteractiveContact from './components/InteractiveContact.jsx';
 import EducationInfo from './components/EducationInfo.jsx';
 import ExperienceInfo from './components/ExperienceInfo.jsx';
 import './assets/styles/reset.css';
@@ -13,7 +13,7 @@ export default function App() {
     <>
       <h1>Curriculum Vitae</h1>
       <form>
-        <ContactInfo
+        <InteractiveContact
           fname={personData.firstName}
           lname={personData.lastName}
           email={personData.email}
