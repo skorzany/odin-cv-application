@@ -1,13 +1,19 @@
-import { useReducer } from 'react';
+import { useReducer, useEffect } from 'react';
 import { initialState, personReducer } from './reducers/personReducer.js';
 import InteractiveContact from './components/InteractiveContact.jsx';
 import InteractiveEducation from './components/InteractiveEducation.jsx';
-import ExperienceInfo from './components/ExperienceInfo.jsx';
+import InteractiveExperience from './components/InteractiveExperience.jsx';
 import './assets/styles/reset.css';
 import './assets/styles/App.css';
 
 export default function App() {
   const [personData, dispatch] = useReducer(personReducer, initialState);
+
+  useEffect(() => {
+    const handlePageRefresh = () => sessionStorage.removeItem('stored_dates');
+    window.addEventListener('beforeunload', handlePageRefresh);
+    return () => window.removeEventListener('beforeUnload', handlePageRefresh);
+  }, []);
 
   return (
     <>
@@ -24,7 +30,7 @@ export default function App() {
           schools={personData.schools}
           dispatch={dispatch}
         />
-        <ExperienceInfo jobs={personData.jobs} dispatch={dispatch} />
+        <InteractiveExperience jobs={personData.jobs} dispatch={dispatch} />
         <button type="submit">Submit</button>
       </form>
       <footer>

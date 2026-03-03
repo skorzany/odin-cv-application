@@ -1,8 +1,4 @@
 /* ===== base/mobile styles ===== */
-.row {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-}
 /* == display state == */
 .workPeriod,
 .company,
