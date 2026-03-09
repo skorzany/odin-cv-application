@@ -34,7 +34,7 @@ body {
 }
 /* ===== general layout ===== */
 #root,
-form {
+.form {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -48,14 +48,14 @@ form {
   color: var(--font-color);
 }
 
-form {
+.form {
   gap: 1em;
   flex: 1;
   margin: 1em 0;
   max-width: 1050px;
 }
 
-form,
+.form,
 fieldset {
   width: 100%;
 }
